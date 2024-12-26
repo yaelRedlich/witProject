@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1da01c93-0c41-4e94-83d1-efd8247ca7ed" name="Changes" comment="create model handling_files_and_folders" />
+    <list default="true" id="1da01c93-0c41-4e94-83d1-efd8247ca7ed" name="Changes" comment="create model handling_files_and_folders">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Commit.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Commit.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/handling_files_and_folders.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/handling_files_and_folders.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,8 +25,23 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "yaelRedlich"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/yaelRedlich/witProject.git",
+    "accountId": "5a269ceb-c516-4083-b37a-3615458119c2"
+  }
+}]]></component>
   <component name="LLMProjectSettings">
     <option name="turned_on" value="false" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -34,6 +54,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.Commit.executor": "Run",
     "Python.Repository.executor": "Run",
     "Python.handling_files_and_folders.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -112,7 +133,23 @@
       <option name="project" value="LOCAL‎" />
       <updated>1735073069900</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL‎-00005" summary="create model handling_files_and_folders">
+      <option name="closed" value="true" />
+      <created>1735073164964</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL‎-00005" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1735073164964</updated>
+    </task>
+    <task id="LOCAL‎-00006" summary="create model handling_files_and_folders">
+      <option name="closed" value="true" />
+      <created>1735073356105</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL‎-00006" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1735073356106</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
