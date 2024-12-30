@@ -3,6 +3,7 @@ import shutil
 from importlib.metadata import files
 from operator import truediv
 from os.path import exists
+import ctypes
 
 
 def create_folder(folder_name, path):
@@ -12,6 +13,9 @@ def create_folder(folder_name, path):
     if os.path.isdir(new_path):
         raise FileExistsError("folder already exists")
     os.mkdir(new_path)
+    FILE_ATTRIBUTE_HIDDEN = 0x02
+    ctypes.windll.kernel32.SetFileAttributesW(new_path, FILE_ATTRIBUTE_HIDDEN)
+
 
 
 def create_file(file_name, path):
@@ -120,3 +124,4 @@ def is_file_modified_after(path1, path2):
 #print(read_names_all_files_in_folder(r"C:\Users\user1\Desktop\python\test\.wit\commits\commit 1"))
 # print(is_file_modified_after(r"C:\Users\user1\Desktop\python\test2",r"C:\Users\user1\Desktop\python\test"))
 #copy_folder_without_parm(r"C:\Users\user1\Desktop\python\source", r"C:\Users\user1\Desktop\python\dist", ".wit")
+#print(folder_is_empty(r"C:\Users\user1\Desktop\python\test\.wit\Staging Area"))

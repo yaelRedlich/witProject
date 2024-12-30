@@ -1,8 +1,8 @@
+import click
 import json
 from datetime import datetime
 from datetime import datetime
 from os import listdir
-
 from classes.Commit import Commit
 from models.handling_files_and_folders import *
 import os
@@ -11,7 +11,7 @@ class Repository :
 
     def __init__(self,repository_path,user_name):
        self.dict_commits = {}
-       self.repository_path = repository_path
+       self.repository_path = os.getcwd()
        self.user_name = user_name
        self.wit_path = os.path.join(self.repository_path, ".wit")
        self.commits_path = os.path.join(self.wit_path, "commits")
@@ -96,22 +96,25 @@ class Repository :
         except FileNotFoundError as  e:
             print(e)
 
-
-    def wit_commit(self, message):
-       message += "(" + str(self.count_commit) + ")"
-       self.add_commit(message)
-       path_new_folder = os.path.join(self.commits_path, message)
-       #  בדיקה האם commit הוא גירסה  הראשון אם כן ניצור תיקייה
-       # אחרת נעתיק את הגירסה הקודמת
-       if not os.listdir(self.commits_path) :
-           create_folder(message,self.commits_path)
-       else:
-         last_folder = find_last_created_folder(self.commits_path)
-         path_last_folder = os.path.join(self.commits_path, last_folder)
-         copy_folder(path_last_folder, path_new_folder)
-       copy_files_and_overwrite(self.staging_area_path,path_new_folder)
-       emptying_folder(self.staging_area_path)
-
+    def wit_commit(self, message):  # לא בדקנו אם אין שינויים ואז אם אין שינויים אז א עושים COMMIT
+        print(folder_is_empty(self.staging_area_path))
+        print(self.staging_area_path)
+        if  folder_is_empty(self.staging_area_path):
+            print("No changes to commit. Staging area is empty.")
+            return False
+        message += "(" + str(self.count_commit) + ")"
+        self.add_commit(message)
+        path_new_folder = os.path.join(self.commits_path, message)
+        if not os.listdir(
+                self.commits_path):  # בדיקה האם הקומיט שנוצר הוא הגרסה הראשונה אם כן ניצור תיקיה חדשה בלי להעתיק את הגרסה הקודמת
+            create_folder(message, self.commits_path)
+        else:  # בכל מקרה אחר ניצור תיקיה חדשה של הגרסה החדשה ונעתיק אליה את הגרסה הקודמת
+            last_folder = find_last_created_folder(self.commits_path)
+            path_last_folder = os.path.join(self.commits_path, last_folder)
+            copy_folder(path_last_folder, path_new_folder)
+        copy_files_and_overwrite(self.staging_area_path, path_new_folder)
+        emptying_folder(self.staging_area_path)
+        return True
 
     def wit_log(self):
         try:
@@ -146,17 +149,16 @@ class Repository :
             except Exception as e:
                 print(f"Error loading commits: {e}")
         for key,value in all_commit.items():
-            if key == commit_id :
+            if key == str(commit_id) :
                 message_commit = value["message"]
         if message_commit == "":
-            return "id not valid"
+            return False
         for item in listdir(self.commits_path):
             if item == message_commit :
                 commit_path = os.path.join(self.commits_path,message_commit)
                 copy_folder_without_parm(commit_path,self.repository_path,".wit")
-                return
-
-
+                return True
+            return False
 
 
 repo=Repository(r"C:\Users\user1\Desktop\python\test","yaelRedlich")
@@ -172,4 +174,4 @@ repo.wit_add("index.html")
 #repo.append_changing_file()
 
 #print(repo.wit_status())
-#repo.wit_checkout("18")
+repo.wit_checkout("2")
