@@ -1,6 +1,7 @@
 import os
 import shutil
 from importlib.metadata import files
+from logging import exception
 from operator import truediv
 from os.path import exists
 import ctypes
@@ -17,7 +18,6 @@ def create_folder(folder_name, path):
     ctypes.windll.kernel32.SetFileAttributesW(new_path, FILE_ATTRIBUTE_HIDDEN)
 
 
-
 def create_file(file_name, path):
     if not exists(path):
         raise FileNotFoundError("path not found")
@@ -25,16 +25,11 @@ def create_file(file_name, path):
     open(new_path, "w").close()
 
 
-#דורס את קובץ במידה וקיימת כבר קובץ בשם זהה
-
 def write_file(path, text):
     if not exists(path):
         raise FileNotFoundError("path not found")
     with  open(path, "a") as file:
         file.write(text)
-
-
-#מוסיפה ולא דורסת
 
 
 def read_file(path):
@@ -56,11 +51,17 @@ def copy_folder_without_parm(source_path, destination_path, parm):
     for item in os.listdir(destination_path):
         if item != parm:
             path = os.path.join(destination_path, item)
-            os.remove(path)
+            if os.path.isfile(path):
+              os.remove(path)
+            elif os.path.isdir(path):
+                shutil.rmtree(path)
     for item in os.listdir(source_path):
         path = os.path.join(source_path, item)
         new_path = os.path.join(destination_path, item)
-        copy_file(path, new_path)
+        if os.path.isfile(path):
+          copy_file(path, new_path)
+        elif os.path.isdir(path):
+          copy_folder(path,new_path)
 
 
 def find_last_created_folder(directory):
@@ -89,11 +90,17 @@ def folder_is_empty(path):
 
 def emptying_folder(path):
     for item in os.listdir(path):
-        try:
-            current_file = os.path.join(path, item)
-            os.remove(current_file)
-        except FileNotFoundError as e:
-            print(e)
+        current_file = os.path.join(path, item)
+        if os.path.isfile(current_file):
+            try:
+                os.remove(current_file)
+            except FileNotFoundError as e:
+                print(e)
+        elif os.path.isfile(current_file):
+            try:
+              shutil.rmtree(current_file)
+            except exception as e:
+                print(e)
 
 
 def read_names_all_files_in_folder(path):
@@ -115,13 +122,11 @@ def is_file_modified_after(path1, path2):
         return False
 
 
-#create_file("index1.html",r"C:\Users\user1\Desktop\python\test\1")
-#create_folder("1",r"C:\Users\user1\Desktop\python\test")
-#write_file(r"C:\Users\user1\Desktop\python\test\1\index.html","<h1>hello world</h1>")
-#print(read_file(r"C:\Users\user1\Desktop\python\test\1\index.html"))
-#copy_file(r"C:\Users\user1\Desktop\python\test\1\index.html",r"C:\Users\user1\Desktop\python\test\1\index1.html")
-#copy_folder(r"C:\Users\user1\Desktop\python\test",r"C:\Users\user1\Desktop\python\test2")
-#print(read_names_all_files_in_folder(r"C:\Users\user1\Desktop\python\test\.wit\commits\commit 1"))
-# print(is_file_modified_after(r"C:\Users\user1\Desktop\python\test2",r"C:\Users\user1\Desktop\python\test"))
-#copy_folder_without_parm(r"C:\Users\user1\Desktop\python\source", r"C:\Users\user1\Desktop\python\dist", ".wit")
-#print(folder_is_empty(r"C:\Users\user1\Desktop\python\test\.wit\Staging Area"))
+def is_file_modified_after1(path1, path2):
+    if not os.path.exists(path1) or not os.path.exists(path2):
+        return True
+    date_path1 = os.path.getmtime(path1)
+    date_path2 = os.path.getmtime(path2)
+    return date_path1 > date_path2
+
+

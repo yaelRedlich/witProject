@@ -1,13 +1,12 @@
 import click
 import os
-from classes.Repository import Repository  # ודא שקובץ זה מכיל את מחלקת Repository
+from classes.Repository import Repository
 
 @click.group()
 def cli():
     """
     Command-line interface for the wit version control system.
     """
-    pass
 
 @cli.command()
 @click.option('--path', default=None, type=str, help='Path to initialize the repository')
@@ -17,7 +16,6 @@ def init(path, user):
     Initialize a new repository.
     """
     try:
-        # אם path לא סופק, השתמש בנתיב הנוכחי
         path = path or os.getcwd()
         repo = Repository(path, user)
         repo.wit_init()
@@ -35,32 +33,32 @@ def add(path, file_names):
     """
     path = path or os.getcwd()
     repo = Repository(path, "default_user")
-
     for file_name in file_names:
-        try:
-            repo.wit_add(file_name)
-            click.echo(f"File '{file_name}' added to staging area.")
-        except Exception as e:
-            click.echo(f"Error adding '{file_name}': {e}")
+            try:
+                status=repo.wit_add(file_name)
+                if status:
+                 click.echo(f"File '{file_name}' added to staging area.")
+            except Exception as e:
+                click.echo(f"Error adding '{file_name}': {e}")
 
 
 @click.option('--message', '--m', required=True, type=str, help='Commit message')
 @cli.command()
-@click.option('--path', default=None, type=str, help='Path to the repository')
+#@click.option('--path', default=None, type=str, help='Path to the repository')
 @click.option('--message', required=True, type=str, help='Commit message')
-def commit(path, message):
+def commit(message):
     """
     Commit changes with a message.
     """
     try:
-        # אם path לא סופק, השתמש בנתיב הנוכחי
-        path = path or os.getcwd()
+        path =   os.getcwd()
         repo = Repository(path, "default_user")
         success = repo.wit_commit(message)
         if success:
            click.echo(f"Commit created with message: {message}")
     except Exception as e:
         click.echo(f"Error: {e}")
+
 
 @cli.command()
 @click.option('--path', default=None, type=str, help='Path to the repository')
@@ -75,6 +73,7 @@ def log(path):
         click.echo(f"Commit logs:\n{logs}")
     except Exception as e:
         click.echo(f"Error: {e}")
+
 
 @cli.command()
 @click.option('--path', default=None, type=str, help='Path to the repository')
@@ -91,6 +90,7 @@ def status(path):
     except Exception as e:
         click.echo(f"Error: {e}")
 
+
 @cli.command()
 @click.option('--path', default=None, type=str, help='Path to the repository')
 @click.argument('commit_id', type=str)
@@ -99,7 +99,6 @@ def checkout(path, commit_id):
     Checkout a specific commit.
     """
     try:
-        # אם path לא סופק, השתמש בנתיב הנוכחי
         path = path or os.getcwd()
         repo = Repository(path, "default_user")
         success = repo.wit_checkout(commit_id)
@@ -111,5 +110,6 @@ def checkout(path, commit_id):
     except Exception as e:
         click.echo(f"Error: {e}")
 
+
 if __name__ == "__main__":
-    cli()
+      cli()

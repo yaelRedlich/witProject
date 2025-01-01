@@ -11,13 +11,14 @@ class Repository :
 
     def __init__(self,repository_path,user_name):
        self.dict_commits = {}
-       self.repository_path = os.getcwd()
+       self.repository_path =repository_path or os.getcwd()
        self.user_name = user_name
        self.wit_path = os.path.join(self.repository_path, ".wit")
        self.commits_path = os.path.join(self.wit_path, "commits")
        self.staging_area_path = os.path.join(self.wit_path, "Staging Area")
        self.commits_json_path = os.path.join(self.wit_path, "commits.json")
        self._load_commits()
+
 
     def __str__(self):
         commits_str = "\n".join(
@@ -70,7 +71,6 @@ class Repository :
             with open(self.commits_json_path, "w", encoding="utf-8") as json_file:
                 json.dump(existing_data, json_file, indent=4, ensure_ascii=False)
         except Exception as e:
-
             print(f"Error updating JSON file: {e}")
 
 
@@ -88,17 +88,27 @@ class Repository :
 
 
     def wit_add(self,file_name):
-        try:
-            source_path = os.path.join(self.repository_path,file_name)
-            create_file(file_name,self.staging_area_path)
-            new_path = os.path.join(self.staging_area_path, file_name)
-            copy_file(source_path,new_path)######check!!! self.staging_area_path
-        except FileNotFoundError as  e:
-            print(e)
+        path1 = os.path.join(self.repository_path, file_name)
+        path2 = os.path.join(self.staging_area_path, file_name)
+        print(path1)
+        if os.path.isfile(path1):
+            if  not is_file_modified_after1(path1,path2):
+                print("No changes have been made to the file since the last addition")
+                return False
+            try:
+                source_path = os.path.join(self.repository_path,file_name)
+                create_file(file_name,self.staging_area_path)
+                new_path = os.path.join(self.staging_area_path, file_name)
+                copy_file(source_path,new_path)######check!!! self.staging_area_path
+            except FileNotFoundError as  e:
+                print(e)
+            return True
+        elif os.path.isdir(path1):
+            copy_folder(path1,os.path.join(self.staging_area_path, file_name))
+            return True
 
-    def wit_commit(self, message):  # לא בדקנו אם אין שינויים ואז אם אין שינויים אז א עושים COMMIT
-        print(folder_is_empty(self.staging_area_path))
-        print(self.staging_area_path)
+
+    def wit_commit(self, message):
         if  folder_is_empty(self.staging_area_path):
             print("No changes to commit. Staging area is empty.")
             return False
@@ -106,15 +116,16 @@ class Repository :
         self.add_commit(message)
         path_new_folder = os.path.join(self.commits_path, message)
         if not os.listdir(
-                self.commits_path):  # בדיקה האם הקומיט שנוצר הוא הגרסה הראשונה אם כן ניצור תיקיה חדשה בלי להעתיק את הגרסה הקודמת
+                self.commits_path):
             create_folder(message, self.commits_path)
-        else:  # בכל מקרה אחר ניצור תיקיה חדשה של הגרסה החדשה ונעתיק אליה את הגרסה הקודמת
+        else:
             last_folder = find_last_created_folder(self.commits_path)
             path_last_folder = os.path.join(self.commits_path, last_folder)
             copy_folder(path_last_folder, path_new_folder)
         copy_files_and_overwrite(self.staging_area_path, path_new_folder)
         emptying_folder(self.staging_area_path)
         return True
+
 
     def wit_log(self):
         try:
@@ -158,20 +169,5 @@ class Repository :
                 commit_path = os.path.join(self.commits_path,message_commit)
                 copy_folder_without_parm(commit_path,self.repository_path,".wit")
                 return True
-            return False
+        return False
 
-
-repo=Repository(r"C:\Users\user1\Desktop\python\test","yaelRedlich")
-#repo.wit_init()
-repo.wit_add("index.html")
-#repo.wit_add("index1.html")
-#repo.wit_commit("commit 1")
-#repo.wit_commit("commit 2")
-#repo.wit_log()
-#repo.add_commit("yael")
-#repo.add_commit("hadasa")
-#repo.add_commit("yael")
-#repo.append_changing_file()
-
-#print(repo.wit_status())
-repo.wit_checkout("2")

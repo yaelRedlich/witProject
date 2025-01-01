@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1da01c93-0c41-4e94-83d1-efd8247ca7ed" name="Changes" comment="create model handling_files_and_folders">
-      <change afterPath="$PROJECT_DIR$/Cli.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wit.bat" afterDir="false" />
+    <list default="true" id="1da01c93-0c41-4e94-83d1-efd8247ca7ed" name="Changes" comment="Finish building the user interface">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cli.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cli.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Repository.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/handling_files_and_folders.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/handling_files_and_folders.py" afterDir="false" />
     </list>
@@ -164,11 +163,20 @@
       <option name="project" value="LOCAL‎" />
       <updated>1735206653299</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL‎-00008" summary="Finish building the user interface">
+      <option name="closed" value="true" />
+      <created>1735564128318</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL‎-00008" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1735564128318</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="create model handling_files_and_folders" />
-    <option name="LAST_COMMIT_MESSAGE" value="create model handling_files_and_folders" />
+    <MESSAGE value="Finish building the user interface" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finish building the user interface" />
   </component>
 </project>
